@@ -13,6 +13,8 @@
 
 > 上面这张是**内置合成数据**跑出来的示例（`--demo`），不含任何真实账户信息。
 
+**在线看示例**：[demo/report_demo.html](demo/report_demo.html) —— 浏览器直接打开即可。
+
 ---
 
 ## 为什么做这个
@@ -131,10 +133,14 @@ mcd-health-check/
 │   └── demo_data.py              # 合成演示数据（--demo 模式）
 ├── assets/
 │   └── report_card.html          # 报告卡模板（string.Template 占位符）
+├── demo/
+│   ├── report_demo.html          # 合成数据跑出来的示例报告卡（可直接打开）
+│   └── report_demo.md
 ├── references/
 │   └── report-spec.md            # 评分口径与参考值来源
 ├── docs/
 │   └── screenshot.png            # 报告卡示例截图
+├── PROMOTION.md                  # 推广文案与 Star 增长清单
 └── raw/                          # MCP 原始返回（.gitignore）
 ```
 
