@@ -22,6 +22,8 @@ import math
 import os
 import re
 import statistics
+import sys
+import tempfile
 from string import Template
 
 # ---------------------------------------------------------------- 基准参考值
@@ -1131,14 +1133,24 @@ def pick(raw, *names):
 
 def main():
     parser = argparse.ArgumentParser(description="麦门健康体检官 · 体检引擎")
-    parser.add_argument("--raw-dir", required=True, help="存放 MCP 原始返回的目录")
+    parser.add_argument("--raw-dir", required=False, help="存放 MCP 原始返回的目录")
     parser.add_argument("--out", required=True, help="输出目录")
     parser.add_argument("--name", default="", help="体检人昵称")
+    parser.add_argument("--demo", action="store_true", help="使用内置合成数据演示，不访问真实账户")
     args = parser.parse_args()
 
-    raw = load_raw(args.raw_dir)
+    raw_dir = args.raw_dir
+    if args.demo:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import demo_data
+        raw_dir = demo_data.generate(os.path.join(tempfile.mkdtemp(prefix="mcd-demo-"), "raw"))
+        print("演示模式：使用内置合成数据，不访问任何真实账户")
+
+    if not raw_dir:
+        raise SystemExit("需要 --raw-dir，或使用 --demo 运行演示。")
+    raw = load_raw(raw_dir)
     if not raw:
-        raise SystemExit("raw 目录为空：%s" % args.raw_dir)
+        raise SystemExit("raw 目录为空：%s" % raw_dir)
 
     orders = parse_orders(extract_json(pick(raw, "order-list") or ""))
     nutrition_payload = extract_json(pick(raw, "list-nutrition-foods") or "")

@@ -9,6 +9,10 @@
 最短板在「权益把控」（33.5 分）——你的账户里有这张券还没用，还剩 1 天。
 ```
 
+![麦门健康体检报告卡片](docs/screenshot.png)
+
+> 上面这张是**内置合成数据**跑出来的示例（`--demo`），不含任何真实账户信息。
+
 ---
 
 ## 为什么做这个
@@ -42,7 +46,7 @@
 ### 2. 跑起来
 
 ```bash
-git clone https://github.com/<你的用户名>/mcd-health-check.git
+git clone https://github.com/nihaobeijing/mcd-health-check.git
 cd mcd-health-check
 
 export MCD_TOKEN=你的Token
@@ -63,6 +67,15 @@ python3 scripts/health_report.py --raw-dir raw --out out --name "你的昵称"
 | `out/report.json` | 结构化指标，便于二次分析 |
 
 Python 3.8+，**不需要 pip install 任何东西**。
+
+### 2.5 先看看效果（不需要 Token）
+
+```bash
+python3 scripts/health_report.py --demo --out out --name "示例麦门人"
+```
+
+演示模式用内置的合成数据跑同一条流水线，不会访问任何真实账户。
+
 
 ### 3. 作为 Skill 使用
 
@@ -114,11 +127,14 @@ mcd-health-check/
 ├── mcp-config.example.json       # 脱敏 MCP 配置示例
 ├── scripts/
 │   ├── fetch_raw.py              # MCP 取数器（完整实现 Streamable HTTP 握手）
-│   └── health_report.py          # 体检引擎（匹配 → 统计 → 评分 → 渲染）
+│   ├── health_report.py          # 体检引擎（匹配 → 统计 → 评分 → 渲染）
+│   └── demo_data.py              # 合成演示数据（--demo 模式）
 ├── assets/
 │   └── report_card.html          # 报告卡模板（string.Template 占位符）
 ├── references/
 │   └── report-spec.md            # 评分口径与参考值来源
+├── docs/
+│   └── screenshot.png            # 报告卡示例截图
 └── raw/                          # MCP 原始返回（.gitignore）
 ```
 

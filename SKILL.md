@@ -30,6 +30,14 @@ python3 scripts/fetch_raw.py --list-tools
 
 若提示找不到 Token，让用户设置环境变量 `MCD_TOKEN`（或写入 `~/.mcd_mcp_token`），**不要**让用户把 Token 写进代码或提交到仓库。
 
+用户只是想先看看效果、不想动真实数据时，用演示模式：
+
+```bash
+python3 scripts/health_report.py --demo --out out --name "示例麦门人"
+```
+
+演示模式使用内置合成数据，不访问真实账户。
+
 ### 第 2 步：拉取数据
 
 ```bash

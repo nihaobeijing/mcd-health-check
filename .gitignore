@@ -13,6 +13,7 @@ mcp-config.json
 report.html
 report.md
 report.json
+report_demo.html
 
 # Python
 __pycache__/
