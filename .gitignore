@@ -1,0 +1,26 @@
+# MCP 原始返回与生成结果（含个人账户数据，不要提交）
+raw/
+out/
+*.jsonl
+
+# Token 等敏感配置
+.mcd_token
+.env
+.env.*
+mcp-config.json
+
+# 报告卡生成物
+report.html
+report.md
+report.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 编辑器与系统
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>麦门健康体检报告 · $name</title>
+<style>
+:root{
+  --red:#DA291C; --red-dark:#96150B; --red-soft:#FF5A4E;
+  --yellow:#FFC72C; --yellow-deep:#F0A400;
+  --ink:#231F20; --ink-2:#4A4344; --grey:#8A8183; --line:#F0E9E6;
+  --bg:#FFF7F2; --paper:#FFFFFF;
+  --green:#1E9E6A; --amber:#E8890C; --violet:#7A5AF8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(160deg,#F3E7DF 0%,#FFF7F2 45%,#FDEEE7 100%);
+  color:var(--ink);padding:22px 14px 34px;line-height:1.62;font-variant-numeric:tabular-nums;
+}
+.card{max-width:472px;margin:0 auto;background:var(--paper);border-radius:26px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(35,31,32,.06),0 18px 48px rgba(35,31,32,.14)}
+
+/* ── 头部 ───────────────────────────── */
+.hero{position:relative;padding:26px 26px 30px;color:#fff;overflow:hidden;
+  background:linear-gradient(142deg,var(--red) 0%,var(--red-dark) 92%)}
+.hero::after{content:"";position:absolute;right:-70px;top:-40px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,rgba(255,199,44,.34),rgba(255,199,44,0) 70%)}
+.arches{position:absolute;right:-8px;bottom:-10px;width:150px;opacity:.24;pointer-events:none}
+.eyebrow{position:relative;z-index:2;font-size:10.5px;letter-spacing:3.2px;text-transform:uppercase;
+  color:rgba(255,255,255,.78);font-weight:700}
+.h-title{position:relative;z-index:2;font-size:26px;font-weight:800;letter-spacing:-.4px;margin-top:5px}
+.h-sub{position:relative;z-index:2;font-size:12.5px;color:rgba(255,255,255,.86);margin-top:5px}
+.hero-main{position:relative;z-index:2;display:flex;align-items:center;gap:18px;margin-top:20px}
+.ring{width:118px;height:118px;flex:0 0 118px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.20))}
+.ring-num{font-size:30px;font-weight:800;fill:var(--ink)}
+.ring-label{font-size:9.5px;fill:var(--ink);opacity:.62;letter-spacing:.5px}
+.hero-side{flex:1;min-width:0}
+.grade-line{display:flex;align-items:baseline;gap:8px}
+.grade-word{font-size:13px;color:rgba(255,255,255,.8);font-weight:600}
+.grade-chip{background:var(--yellow);color:var(--ink);font-weight:800;font-size:19px;padding:1px 13px;
+  border-radius:11px;box-shadow:0 3px 10px rgba(0,0,0,.16)}
+.hero-note{font-size:12px;color:rgba(255,255,255,.88);margin-top:9px;line-height:1.55}
+
+/* ── 结论条 ─────────────────────────── */
+.verdict{margin:-16px 16px 0;position:relative;z-index:3;background:var(--paper);border-radius:16px;
+  padding:14px 16px;box-shadow:0 8px 22px rgba(35,31,32,.10);border:1px solid var(--line)}
+.verdict b{display:block;font-size:13px;color:var(--ink);margin-bottom:3px}
+.verdict p{font-size:12.5px;color:var(--ink-2);line-height:1.65}
+
+/* ── 区块 ───────────────────────────── */
+.section{padding:22px 24px 4px}
+.section+.section{border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-.2px}
+.sec-title::before{content:"";width:4px;height:15px;border-radius:3px;background:var(--red)}
+.sec-note{font-size:11px;color:var(--grey)}
+
+/* 四维卡片 */
+.dims{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dim{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:13px 12px;
+  display:flex;align-items:center;gap:11px}
+.dim svg{width:52px;height:52px;flex:0 0 52px}
+.dim-name{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.dim-val{font-size:19px;font-weight:800;margin-top:1px}
+.dim-val small{font-size:11px;color:var(--grey);font-weight:600;margin-left:2px}
+
+/* 数据块 */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tile{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:11px 13px}
+.tile span{display:block;font-size:11px;color:var(--grey);margin-bottom:2px}
+.tile b{font-size:20px;font-weight:800;letter-spacing:-.5px}
+.tile b small{font-size:11.5px;font-weight:600;color:var(--grey);margin-left:2px;letter-spacing:0}
+.tile.warn b{color:var(--red)}
+.tile.good b{color:var(--green)}
+
+/* 堆叠条 */
+.stack{display:flex;height:13px;border-radius:7px;overflow:hidden;margin:14px 0 8px;background:var(--line)}
+.stack i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink-2)}
+.legend b{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.legend i{width:8px;height:8px;border-radius:2px;display:inline-block}
+
+/* 指标行 */
+.metric{margin-top:12px}
+.metric-top{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-2);margin-bottom:5px}
+.metric-top b{font-weight:700;color:var(--ink)}
+.track{height:7px;border-radius:5px;background:var(--line);overflow:hidden}
+.track i{display:block;height:100%;border-radius:5px}
+
+/* 复购榜 */
+.rank{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.rank:last-child{border-bottom:none}
+.rank-no{width:19px;height:19px;border-radius:6px;background:var(--red);color:#fff;font-size:10.5px;
+  font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 19px}
+.rank-no.ghost{background:var(--line);color:var(--grey)}
+.rank-name{flex:1;font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-bar{width:74px;height:6px;border-radius:4px;background:var(--line);overflow:hidden;flex:0 0 74px}
+.rank-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--red-soft))}
+.rank-count{width:34px;text-align:right;font-size:12.5px;font-weight:800;color:var(--red);flex:0 0 34px}
+.est{font-size:10px;color:var(--yellow-deep);font-weight:700;margin-left:3px}
+
+/* 券票 */
+.ticket{position:relative;background:linear-gradient(100deg,#FFF6E0,#FFFDF8);border:1px dashed var(--yellow-deep);
+  border-radius:13px;padding:11px 13px;margin-bottom:9px;display:flex;align-items:center;gap:12px}
+.ticket::before,.ticket::after{content:"";position:absolute;width:11px;height:11px;border-radius:50%;
+  background:var(--paper);border:1px solid var(--yellow-deep)}
+.ticket::before{left:-6px}.ticket::after{right:-6px}
+.ticket-price{font-size:19px;font-weight:800;color:var(--red);flex:0 0 auto;min-width:56px}
+.ticket-price small{font-size:11px;font-weight:700}
+.ticket-body{flex:1;min-width:0}
+.ticket-name{font-size:13px;font-weight:700}
+.ticket-meta{font-size:11px;color:var(--grey);margin-top:1px}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;color:#fff;background:var(--red);
+  border-radius:5px;padding:1px 6px;margin-left:5px;vertical-align:1px}
+.tag.warn{background:var(--amber)}
+
+/* 建议 */
+.adv{display:flex;gap:11px;padding:12px;border-radius:14px;margin-bottom:9px;background:var(--bg);
+  border:1px solid var(--line);border-left-width:3px}
+.adv.urgent{border-left-color:var(--red);background:#FFF4F2}
+.adv.warning{border-left-color:var(--amber);background:#FFF9EF}
+.adv.info{border-left-color:var(--violet);background:#F8F6FF}
+.adv-icon{width:26px;height:26px;border-radius:9px;flex:0 0 26px;display:flex;align-items:center;
+  justify-content:center;font-size:14px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.adv b{font-size:13px;display:block}
+.adv p{font-size:12px;color:var(--ink-2);margin-top:3px;line-height:1.6}
+
+/* 说明框 */
+.note{font-size:11.5px;color:var(--ink-2);background:var(--bg);border:1px solid var(--line);
+  border-radius:12px;padding:11px 13px;line-height:1.7}
+.note b{color:var(--ink)}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;color:var(--ink-2);background:#fff;
+  border:1px solid var(--line);border-radius:20px;padding:1px 8px;margin:4px 5px 0 0}
+
+.list{list-style:none}
+.list li{font-size:12.5px;color:var(--ink-2);padding:5px 0;border-bottom:1px dashed var(--line)}
+.list li:last-child{border-bottom:none}
+
+.foot{padding:20px 24px 26px;text-align:center;font-size:11px;color:var(--grey);line-height:1.8}
+.foot b{color:var(--red);font-weight:700}
+.foot .mark{font-size:15px;font-weight:800;color:var(--red);letter-spacing:.5px}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="hero">
+    <svg class="arches" viewBox="0 0 150 70" fill="none">
+      <path d="M12 66C12 26 40 12 58 34C76 12 104 26 104 66" stroke="#FFC72C" stroke-width="11" stroke-linecap="round"/>
+      <path d="M112 66C112 40 130 32 140 44" stroke="#FFC72C" stroke-width="11" stroke-linecap="round"/>
+    </svg>
+    <div class="eyebrow">McDonald's MCP · Health Check</div>
+    <div class="h-title">麦门健康体检报告</div>
+    <div class="h-sub">$name ｜ $time</div>
+    <div class="hero-main">
+      $ring
+      <div class="hero-side">
+        <div class="grade-line"><span class="grade-word">麦门健康分</span><span class="grade-chip">$grade</span></div>
+        <div class="hero-note">$grade_comment</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict"><b>$verdict_title</b><p>$verdict_body</p></div>
+
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">四维体检评分</div><div class="sec-note">加权总分 $score</div></div>
+    <div class="dims">$dims</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">营养体检</div><div class="sec-note">基于 $meal_count 单有效订单</div></div>
+    <div class="tiles">$nutrition_tiles</div>
+    <div class="stack">$macro_bar</div>
+    <div class="legend">$macro_legend</div>
+    $sodium_metric
+  </div>
+
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">钱包体检</div><div class="sec-note">$span_days 天消费周期</div></div>
+    <div class="tiles">$wallet_tiles</div>
+    $store_metric
+  </div>
+
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">复购榜</div><div class="sec-note">累计点过 $dish_total 次</div></div>
+    <div>$dishes</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">权益盘点</div><div class="sec-note">积分 · 优惠券 · 商城</div></div>
+    <div class="tiles">$points_tiles</div>
+    $coupons
+  </div>
+
+  $campaign
+
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">体检建议</div><div class="sec-note">$advice_count 条</div></div>
+    $advice
+  </div>
+
+  <div class="section">
+    <div class="sec-head"><div class="sec-title">数据可信度</div><div class="sec-note">全部来自官方 MCP</div></div>
+    <div class="note">$coverage_note</div>
+  </div>
+
+  <div class="foot">
+    <div class="mark">麦门健康体检官 mcd-health-check</div>
+    数据来源：麦当劳官方 MCP Server（实时拉取）｜ 生成时间 $time<br>
+    本报告为个人消费数据分析，不构成医疗或营养建议；餐品与价格以麦当劳官方渠道实时结果为准
+  </div>
+</div>
+</body>
+</html>
